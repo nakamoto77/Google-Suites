@@ -7,11 +7,11 @@ function onOpen() {
 }
 
 function schedule(){
-  var spreadsheet = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1hLcT6JQYUF79s7A3iP5ZgWmooUIR0jtz1o7VatbU-8Q/edit").getSheetByName("schedule");
+  var spreadsheet = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1hLcT6JQYUF79s7A3iP5ZgWmooUIR0jtz1o7VatbU-8Q/edit").getSheetByName("schedule"); //change links (this is demo sheet link)
   var calendarId = spreadsheet.getRange("A2").getValue();
   var eventCal = CalendarApp.getCalendarById(calendarId);
   var signups = spreadsheet.getRange("A8:C56").getValues();
-  var fromDate = new Date(2024,5,17); 
+  var fromDate = new Date(2024,5,17); //change value to represent from what time to what time to remove
   var toDate = new Date(2027,5,30);   
   var events = eventCal.getEvents(fromDate, toDate);  
 
@@ -28,7 +28,7 @@ function schedule(){
     var name= shift[2];
     
     if (name) {
-      eventCal.createEvent(name, startTime, endTime);
+      eventCal.createEvent(name, startTime, endTime);// if not description/details given, will assume its empty
       
     }
     Utilities.sleep(500);
