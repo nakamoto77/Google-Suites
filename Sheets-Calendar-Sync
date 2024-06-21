@@ -1,0 +1,38 @@
+
+function onOpen() {
+  var ui = SpreadsheetApp.getUi();
+  ui.createMenu('Calendar')
+      .addItem('Sync', 'schedule')
+      .addToUi();
+}
+
+function schedule(){
+  var spreadsheet = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1hLcT6JQYUF79s7A3iP5ZgWmooUIR0jtz1o7VatbU-8Q/edit").getSheetByName("schedule");
+  var calendarId = spreadsheet.getRange("A2").getValue();
+  var eventCal = CalendarApp.getCalendarById(calendarId);
+  var signups = spreadsheet.getRange("A8:C56").getValues();
+  var fromDate = new Date(2024,5,17); 
+  var toDate = new Date(2027,5,30);   
+  var events = eventCal.getEvents(fromDate, toDate);  
+
+  for(var i=0; i<events.length;i++)  
+  {  
+    var ev = events[i];  
+    ev.deleteEvent();    
+  }
+
+  for(var x=0; x< signups.length;x++)  {
+    var shift = signups[x];
+    var startTime= shift[0];
+    var endTime = shift[1];
+    var name= shift[2];
+    
+    if (name) {
+      eventCal.createEvent(name, startTime, endTime);
+      
+    }
+    Utilities.sleep(500);
+  }
+
+}
+
